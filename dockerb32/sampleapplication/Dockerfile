@@ -1,6 +1,6 @@
 FROM ubuntu:latest  
 #this is my base image on which deployment is done 
-LABEL author="dev anup"
+LABEL author="dev karishma"
 #this is lavel to add metadata to image
 RUN apt-get update  && \ 
     apt-get install apache2 unzip -y 
