@@ -20,4 +20,4 @@ RUN rm -rf /var/www/html/index.html && \
 EXPOSE 80
 # We are exposing port 80 to access your webapp
 
-CMD [ "apache2ctl", "-D", "FOREGROUND" ]
+CMD [ "apachectl", "-D", "FOREGROUND" ]
