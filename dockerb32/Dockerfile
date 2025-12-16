@@ -1,22 +1,26 @@
-FROM ubuntu:latest  
-#this is my base image on which deployment is done 
-LABEL author="dev karishma"
-#this is lavel to add metadata to image
-RUN apt-get update  && \ 
-    apt-get install apache2 unzip -y 
-#we are updating the image , installing apache2 server and unzip utility   
+From ubuntu:22.04
 
-ADD https://templatemo.com/download/templatemo_603_nexaverse /var/www/html/templatemo_603_nexaverse.zip
-#in here we have downloaded a sample webapp from internet and added to our apache server root directory
+LABEL name=" dev karishma"
 
-RUN rm -rf /var/www/html/index.html && \
-    unzip /var/www/html/templatemo_603_nexaverse.zip -d /var/www/html  && \
-    mv /var/www/html/templatemo_603_nexaverse/* /var/www/html/ 
-#in here we have removed the default index.html file of apache server and unzipped the downloaded webapp 
-#and moved all the content to apache server root directory
-#WORKDIR   /var/www/html 
+RUN apt-get update -y && \
+   apt-get install unzip openjdk-11-jdk -y 
 
-EXPOSE 80
-#we are exposing port 80 to access our webapp
+ADD https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.113/bin/apache-tomcat-9.0.113.zip /opt/
 
-CMD [ "apache2ctl", "-D",  "FOREGROUND" ] 
+WORKDIR /opt
+
+RUN unzip apache-tomcat-9.0.113.zip && \
+    rm apache-tomcat-9.0.113.zip
+
+ADD https://s3-us-west-2.amazonaws.com/studentapi-cit/student.war /opt/apache-tomcat-9.0.113/webapps/
+
+ADD https://s3-us-west-2.amazonaws.com/studentapi-cit/mysql-connector.jar /opt/apache-tomcat-9.0.113/lib/
+
+COPY context.xml /opt/apache-tomcat-9.0.113/conf/
+
+
+EXPOSE 8080
+
+RUN chmod +x /opt/apache-tomcat-9.0.113/bin/catalina.sh
+
+CMD ["/opt/apache-tomcat-9.0.113/bin/catalina.sh", "run"]
