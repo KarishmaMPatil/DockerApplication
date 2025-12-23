@@ -9,7 +9,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql:/studentapp.cjqme0ok6rs1.ap-south-1.rds.amazonaws.com/:3306/studentdb
       SPRING_DATASOURCE_USERNAME: admin
-       SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_DATASOURCE_PASSWORD: 12345678
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     restart: always
 
